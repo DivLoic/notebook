@@ -22,4 +22,7 @@ def mapByCart(self, prod=False):
             
         res.saveAsTextFile("hdfs:/" + self.target + folder)
 ```
+## The Labs folder
+Most of Lab report implies a simple python script. It cant also be stored here.
+See also: [the Labs report repo](https://github.com/DivLoic/TP-LabSession/blob/master/README.md) https://github.com/DivLoic/TP-LabSession
 
