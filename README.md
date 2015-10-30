@@ -5,8 +5,10 @@ The IPython Notebook is an interactive computational environment, in which you c
 
 ![IPython Logo](https://dl.dropboxusercontent.com/s/c9te64xd06a36lw/IPy_header.png?)
 
-## SPARK as a trigger for this.
-Since the code can be executed from my personnal laptop or from my server I need to keep up to date my sources code on the both sides. Plus, it's so much easier to commit some files to run to a server than upload them by FTP.
+## SPARK, with the pyspark connector.
+Since the code can be executed from my personnal laptop or from my server I need to keep up to date my sources code on the both sides. This cnfiguration works with Spark 1.4.0:
+`export PYSPARK_DRIVER_PYTHON='ipython'`
+`export PYSPARK_DRIVER_PYTHON_OPTS='notebook [--port .... --notebook-dir=/../..] --no-browser'`
 *But, why store scripts on a server in a first place?*
 **SPARK** is the answer... Since I don't have hadoop and Spark on my laptop I work "on line". And it's allow you to do some realy cool things: 
 ```python
