@@ -5,26 +5,15 @@ The IPython Notebook is an interactive computational environment, in which you c
 
 ![IPython Logo](https://dl.dropboxusercontent.com/s/c9te64xd06a36lw/IPy_header.png?)
 
-## SPARK, with the pyspark connector.
-Since the code can be executed from my personnal laptop or from my server I need to keep up to date my sources code on the both sides. This cnfiguration works with Spark 1.4.0:
-`export PYSPARK_DRIVER_PYTHON='ipython'`
-`export PYSPARK_DRIVER_PYTHON_OPTS='notebook [--port .... --notebook-dir=/../..] --no-browser'`
-*But, why store scripts on a server in a first place?*
-**SPARK** is the answer... Since I don't have hadoop and Spark on my laptop I work "on line". And it's allow you to do some realy cool things: 
-```python
-@classmethod
-def mapByCart(self, prod=False):
-        """ Simple MapReduce on rough vehicle arround Paris
-            No Return. CSV: ...;type of vehicle;... """
-        res = self.rdd.map(lambda line: line.split(";"))\
-            .filter(lambda y: y[0] != '')\
-            .map(lambda y: (y[10], 1))\
-            .reduceByKey(lambda a, b: a + b)\
-            .sortBy(lambda y: y[1])
-            
-        res.saveAsTextFile("hdfs:/" + self.target + folder)
-```
+## Scala
+*...*
+
+## R
+*...*
+
+## SPARK
+*...*
+
 ## The Labs folder
 Most of Lab report implies a simple python script. It cant also be stored here.
 See also: [the Labs report repo](https://github.com/DivLoic/TP-LabSession/blob/master/README.md) https://github.com/DivLoic/TP-LabSession
-
