@@ -5,11 +5,10 @@ The IPython Notebook is an interactive computational environment, in which you c
 
 ![IPython Logo](https://dl.dropboxusercontent.com/s/3a831t8txwp2nxl/jup_header.png?dl=0)
 
-
-## Scala
+## R
 *...*
 
-## R
+## Scala
 *...*
 
 ## SPARK
@@ -18,3 +17,6 @@ The IPython Notebook is an interactive computational environment, in which you c
 ## The Labs folder
 Most of Lab report implies a simple python script. It cant also be stored here.
 See also: [the Labs report repo](https://github.com/DivLoic/TP-LabSession/blob/master/README.md) https://github.com/DivLoic/TP-LabSession
+
+## Dato folder
+*...*
