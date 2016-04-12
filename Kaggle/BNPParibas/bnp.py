@@ -49,8 +49,8 @@ test = test[float_columns + ["ID"]]
 #col_dead =  train.isnull().sum()
 #col_dead.sort_values(inplace=True)
 
-#train = train.drop(col_dead[-25:].index.tolist(), axis=1)
-#test = test.drop(col_dead[-25:].index.tolist(), axis=1)
+#train = train.drop(col_dead[-55:].index.tolist(), axis=1)
+#test = test.drop(col_dead[-55:].index.tolist(), axis=1)
 
 # data cleaning
 for item in train.iteritems():
@@ -64,20 +64,31 @@ for item in test.iteritems():
 #                                   max_depth=50, 
 #                                   random_state=SEED_STATE)
 
-Boost  = ExtraTreesClassifier(n_estimators=1200,
+Boost = ExtraTreesClassifier(n_estimators=1200,
 	max_features=30,
 	criterion='entropy',
-	min_samples_split= 2,
-	max_depth= 30, 
-	min_samples_leaf= 2, 
+	min_samples_split=2,
+	max_depth=30, 
+	min_samples_leaf=2, 
 	n_jobs = -1)
 
 Boost.fit(train.drop(["ID", "target"], axis=1) , train["target"])
 
 result = test[["ID"]]
 result["PredictedProb"] = Boost.predict_proba(test.drop(["ID"], axis=1))[:,1].tolist()
+result["PredictedBin"] = Boost.predict(test.drop(["ID"], axis=1))
 
-result.to_csv("lmd_submission_07.csv", index=False)
+#binary_df = pd.read_csv("lmd_binary.csv")
+
+#result = pd.merge(result, binary_df, on="ID")
+
+#for idx, line in result.iterrows():
+#    if line["PredictedBin"] == line["binary"] and line["PredictedProb"] > 0.7:
+#        result.loc[idx, ("PredictedProb")] = (0.9999 + (line["PredictedProb"] / 10000))
+#    if line["PredictedBin"] == line["binary"] and line["PredictedProb"] < 0.3:
+#    	result.loc[idx, ("PredictedProb")] = line["PredictedProb"] / 10000
+
+result.to_csv("lmd_submission_last.csv", columns=["ID","PredictedProb"], index=False)
 
 print("~~~~~~~ • END OF THE SCRIPT, DURATION: %ss •  ~~~~~~~"%(time.time() - start_time))
 
