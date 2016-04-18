@@ -1,6 +1,7 @@
 # coding: utf8
 from __future__ import division
 # imports
+import sys
 import time
 import math
 import random
@@ -64,13 +65,26 @@ for item in test.iteritems():
 #                                   max_depth=50, 
 #                                   random_state=SEED_STATE)
 
+bin_train = pd.read_csv("train_bin.csv")
+bin_test  = pd.read_csv("test_bin.csv")
+
+train = pd.merge(train, bin_train, on="ID")
+test = pd.merge(test, bin_test, on="ID")
+
+#print train[["ID", "v3.A", "v78"]].iloc[0:8,:]
+
+#print("~~~~~~~ • END OF THE SCRIPT, DURATION: %ss •  ~~~~~~~"%(time.time() - start_time))
+#sys.exit(0)
+
+
 Boost = ExtraTreesClassifier(n_estimators=1200,
 	max_features=30,
 	criterion='entropy',
 	min_samples_split=2,
 	max_depth=30, 
 	min_samples_leaf=2, 
-	n_jobs = -1)
+	n_jobs = -1,
+	random_state=SEED_STATE)
 
 Boost.fit(train.drop(["ID", "target"], axis=1) , train["target"])
 
@@ -78,15 +92,15 @@ result = test[["ID"]]
 result["PredictedProb"] = Boost.predict_proba(test.drop(["ID"], axis=1))[:,1].tolist()
 result["PredictedBin"] = Boost.predict(test.drop(["ID"], axis=1))
 
-#binary_df = pd.read_csv("lmd_binary.csv")
+binary_df = pd.read_csv("lmd_binary.csv")
 
-#result = pd.merge(result, binary_df, on="ID")
+result = pd.merge(result, binary_df, on="ID")
 
-#for idx, line in result.iterrows():
-#    if line["PredictedBin"] == line["binary"] and line["PredictedProb"] > 0.7:
-#        result.loc[idx, ("PredictedProb")] = (0.9999 + (line["PredictedProb"] / 10000))
-#    if line["PredictedBin"] == line["binary"] and line["PredictedProb"] < 0.3:
-#    	result.loc[idx, ("PredictedProb")] = line["PredictedProb"] / 10000
+for idx, line in result.iterrows():
+    if line["PredictedBin"] == line["binary"] and line["PredictedProb"] > 0.7:
+        result.loc[idx, ("PredictedProb")] = (0.9999 + (line["PredictedProb"] / 10000))
+    if line["PredictedBin"] == line["binary"] and line["PredictedProb"] < 0.3:
+    	result.loc[idx, ("PredictedProb")] = line["PredictedProb"] / 10000
 
 result.to_csv("lmd_submission_last.csv", columns=["ID","PredictedProb"], index=False)
 
