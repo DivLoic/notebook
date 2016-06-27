@@ -5,13 +5,28 @@ The IPython Notebook is an interactive computational environment, in which you c
 
 ![IPython Logo](https://dl.dropboxusercontent.com/s/3a831t8txwp2nxl/jup_header.png?dl=0)
 
-## R
-*...*
+## R    
+Thanks to [IRKernel](http://irkernel.github.io), Jupyter kernel for the R programming language the notbook project contains also R code. Here is the intallation cmd line:   
+```R
+install.packages(c('repr', 'pbdZMQ', 'devtools')) # repr is already on CRAN
+devtools::install_github('IRkernel/IRdisplay')
+devtools::install_github('IRkernel/IRkernel')
+IRkernel::installspec()
+```
+*to be continued...*
 
 ## Scala
-*...*
+Since Scala is more than a JVM family lang, but also a great interactive tool with scripting support working with jupyter is a awesome experience. To make it happen i chose [jupyter-scala](https://github.com/alexarchambault/jupyter-scala).
 
-## SPARK
+```bash
+$ cd jupyter-scala
+$ pip install --upgrade "ipython[all]"
+$ ipython kernelspec list
+$ jupyter-scala
+```
+*to be continued...*
+
+## Spark
 *...*
 
 ## The Labs folder
