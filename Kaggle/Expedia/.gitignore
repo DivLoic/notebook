@@ -1,0 +1,4 @@
+data/*
+*.out
+*.pyc
+.ipynb_checkpoints/

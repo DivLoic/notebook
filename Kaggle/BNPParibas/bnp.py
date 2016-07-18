@@ -12,9 +12,17 @@ import numpy  as np
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.cross_validation import train_test_split
 
-
+# constants
 SEED_STATE = 1
-BAD = ['v8','v22', 'v23','v25','v31','v36','v37','v46','v51','v53','v54','v63','v73','v75','v79','v81','v82','v89','v92','v95','v105','v107','v108','v109','v110','v116','v117','v118','v119','v123','v124','v128']
+BAD = [
+	'v8','v22','v23','v25','v31',
+	'v36','v37','v46','v51','v53',
+	'v54','v63','v73','v75','v79',
+	'v81','v82','v89','v92','v95',
+	'v105','v107','v108','v109',
+	'v110','v116','v117','v118',
+	'v119','v123','v124','v128'
+]
 
 train = pd.read_csv('train.csv')
 test = pd.read_csv('test.csv')
