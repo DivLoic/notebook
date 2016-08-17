@@ -16,7 +16,7 @@ IRkernel::installspec()
 *to be continued...*
 
 ## Scala
-Since Scala is more than a JVM family lang, but also a great interactive tool with scripting support working with jupyter is a awesome experience. To make it happen i chose [jupyter-scala](https://github.com/alexarchambault/jupyter-scala).
+Since Scala is a great family language with an interactive tool (REPL), working with jupyter is a awesome experience. To make it happen i chose [jupyter-scala](https://github.com/alexarchambault/jupyter-scala).
 
 ```bash
 $ cd jupyter-scala
@@ -24,7 +24,15 @@ $ pip install --upgrade "ipython[all]"
 $ ipython kernelspec list
 $ jupyter-scala
 ```
-*to be continued...*
+Here is a simple jupyter cell with scala code.
+```{scala}
+import scala.math._
+println sys.env("HOME")
+val t = 0.1
+val foo = for(i <- 0 until 10 by 2) yield {
+  pow(t, i)*exp(-t)
+}
+```
 
 ## Spark
 *...*
