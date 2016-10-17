@@ -1,0 +1,7 @@
+### IPythonNotebook ###
+# Temporary data
+
+*/data/
+*.out
+*.pyc
+*.ipynb_checkpoints/
