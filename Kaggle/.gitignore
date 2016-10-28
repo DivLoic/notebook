@@ -2,6 +2,7 @@
 # Temporary data
 
 */data/
+*/tmp/
 *.out
 *.pyc
 *.ipynb_checkpoints/
