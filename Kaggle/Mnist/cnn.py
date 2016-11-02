@@ -20,6 +20,7 @@ optparser = OptionParser()
 optparser.add_option("-l", "--logginglvl", dest="logginglvl", default="info", help="Logging level")
 optparser.add_option("-t", "--trainmodel", dest="trainmodel", default=1, type="int", help="Fit the cnn or not")
 optparser.add_option("-u", "--upgratings", dest="upgratings", default=0, type="int", help="Compute progress or not")
+optparser.add_option("-w", "--writevalid", dest="writevalid", default=1, type="int", help="write a validation predict 4 to compare")
 optparser.add_option("-v", "--validation", dest="validation", default=0.20, type="float", help="Size of the validation set")
 optparser.add_option("-s", "--batchsizes", dest="batchsizes", default=50, type="int", help="Size of the batches passes throught the optimisation")
 
@@ -28,6 +29,7 @@ options, args = optparser.parse_args()
 # ### constant
 step = options.batchsizes
 inf, sup = (0, step)
+TRAINING_LAPS = 60001
 
 
 LOG_FORMAT = '%(asctime)s [ %(levelname)s ] : %(message)s'
@@ -164,11 +166,11 @@ if __name__ == "__main__":
 		log.warn("Start fitting the model and training the cnn.")
 
 		dataLenght = len(DATA_TRAIN)
-		log.debug("- [INIT] - training : 2000")
-		log.debug("- [INIT] - iterration: 20001")
+		log.debug("- [INIT] - training : %i"%TRAINING_LAPS)
+		log.debug("- [INIT] - training iterrations: %i"%TRAINING_LAPS)
 
 
-		for i in range(20001):
+		for i in range(TRAINING_LAPS):
 			
 			train_step.run(feed_dict = {
 				x: DATA_TRAIN[inf:sup].as_matrix(),
@@ -180,11 +182,13 @@ if __name__ == "__main__":
 
 				if options.upgratings == 1:
 
-					log.info("- [UPDATES] - ")
-					log.info("- [UPDATES] - ")
-					log.info("- [UPDATES] - ")
+					train_acc = accuracy.eval(feed_dict={x: DATA_TRAIN.as_matrix(), y_: outputLayer(DATA_TRAIN.index.tolist()), keep_prob: 1.0})
+					valid_acc = accuracy.eval(feed_dict={x: DATA_VALID.as_matrix(), y_: outputLayer(DATA_VALID.index.tolist()), keep_prob: 1.0})
 
-				log.info("Passing the %i th lap"%i)
+					log.info("- [TRAINING UPDATES] - lap %i - training accuracy : \t %f"%(i,  train_acc))
+					log.info("- [TRAINING UPDATES] - lap %i - validation accuracy : \t %f"%(i, valid_acc))
+				else :
+					log.info("- [TRAINING UPDATES] - lap %i -"%i)
 
 
 			inf, sup = nextBatch(inf, sup, step, dataLenght)
@@ -192,6 +196,15 @@ if __name__ == "__main__":
 
 
 		prediction = tf.argmax(y_conv,1)
+
+
+		if options.writevalid == 1:
+
+			log.info("Prediction on the validation set.")
+			VALID_LABEL = prediction.eval(feed_dict={x: DATA_VALID.as_matrix(), keep_prob: 1.0})
+			DATA_VALID["prediction"] = VALID_LABEL
+			log.info("Writting the validation labels on disc.")
+			DATA_VALID.to_csv("data/validation_df.csv")
 
 		log.info("Evalustion of the test set.")
 		PRED_LABEL = prediction.eval(feed_dict={x: DATA_TEST.as_matrix(), keep_prob: 1.0})
